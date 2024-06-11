@@ -1,0 +1,21 @@
+.postBoxes {
+    display: flex;
+    width: 1300px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.postBox {
+    margin: 10px;
+    width: 400px;
+}
+
+.boxPhoto {
+    height: 130px;
+}
+
+.noResults {
+    text-align: center;
+    margin-top: 60px !important;
+    width: 1300px;
+}

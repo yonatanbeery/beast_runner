@@ -1,0 +1,19 @@
+.appBar {
+    background-color: #bdbdbd !important;
+    height: 70px;
+    text-align: center;
+}
+
+.title {
+    flex-grow: 1;
+    font-family: sans-serif !important;
+    color: black;
+}
+
+.logo {
+    margin-top: 55px;
+}
+
+.hamburger {
+    margin-bottom: 7px !important;
+}
