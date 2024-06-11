@@ -17,9 +17,11 @@ const Login = () => {
     const loginWithGoogle = useGoogleLogin({
         onSuccess: async (tokenResponse: TokenResponse) => {
             console.log({token:tokenResponse})
-            await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/googleLogin`, {data:tokenResponse}).then((res) => {
+            /*await axios.post(`${import.meta.env.VITE_SERVER_URL}/auth/googleLogin`, {data:tokenResponse}).then((res) => {
                 setAuthData(res.data.accessToken, res.data.refreshToken, res.data.userId)
-            }).catch(() => setErrorMessage("Cant sign in with google"))},
+            }).catch(() => setErrorMessage("Cant sign in with google"))*/
+            setAuthData(tokenResponse.access_token, tokenResponse.access_token, tokenResponse.access_token)
+        },
         onError: () => setErrorMessage("Cant sign in with google")
     });
 
