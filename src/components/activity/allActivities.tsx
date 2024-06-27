@@ -3,13 +3,14 @@ import '../styles/postsPage.css';
 import {AuthContext} from "../../App";
 import Login from "../Login";
 import axios from 'axios';
+import { connectToAi } from '../../services/connectToAi';
 
 enum Gender {
     female,
     male
 }
 
-interface UserFitnessData {
+export interface UserFitnessData {
     weight: number;
     height: number;
     gender: Gender;
@@ -47,6 +48,8 @@ const ActivitiesPage = () => {
         age: 0,
     });
     const [birthYear, setBirthYear] = useState<number>(new Date().getFullYear());
+    const [plan, setPlan] = useState<any>();
+    const [isLoading, setIsLoading] = useState(false);
 
     const fetchSessions = async () => {
         console.log("fetching sessions");
@@ -230,6 +233,14 @@ const ActivitiesPage = () => {
         }
     };
 
+
+    const fetchPlan = async () => {
+        setIsLoading(true);
+        const aiPlan = await connectToAi(userFitnessData);
+        setIsLoading(false);
+        setPlan(aiPlan);
+    }
+
     useEffect(() => {
         if (authToken.accessToken) {
             fetchSessions();
@@ -289,6 +300,11 @@ const ActivitiesPage = () => {
                 <h4>
                     Birth Year:
                     <input type="number" value={birthYear} onChange={handleBirthYearChange}/>
+                </h4>
+                <button onClick={fetchPlan}>generate plan</button>
+                <h4>
+                    Training plan:
+                    {isLoading ? 'loading...' : plan}
                 </h4>
             </>
             : <Login/>
