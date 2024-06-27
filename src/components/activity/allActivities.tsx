@@ -6,8 +6,8 @@ import axios from 'axios';
 import { connectToAi } from '../../services/connectToAi';
 
 enum Gender {
-    female,
-    male
+    female='Female',
+    male='Male'
 }
 
 export interface UserFitnessData {
