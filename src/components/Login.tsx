@@ -23,7 +23,7 @@ const Login = () => {
             setAuthData(tokenResponse.access_token, tokenResponse.access_token, tokenResponse.access_token)
         },
         onError: () => setErrorMessage("Cant sign in with google"),
-        scope: 'https://www.googleapis.com/auth/fitness.activity.read'
+        scope: 'https://www.googleapis.com/auth/fitness.activity.read https://www.googleapis.com/auth/fitness.body.read https://www.googleapis.com/auth/fitness.reproductive_health.read'
     });
 
     const loginWithUsername = async () => {
