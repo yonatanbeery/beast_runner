@@ -1,9 +1,16 @@
-//const { GoogleGenerativeAI } = require("@google/generative-ai");
 import {GoogleGenerativeAI} from '@google/generative-ai'
 import { UserFitnessData } from '../components/activity/allActivities';
 
 // Access your API key as an environment variable (see "Set up your API key" above)
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_API_KEY ?? '');
+
+const generationConfig = {
+  temperature: 1,
+  topP: 0.95,
+  topK: 64,
+  maxOutputTokens: 8192,
+  responseMimeType: "application/json",
+};
 
 export const connectToAi = async (userFitnessData: UserFitnessData) => {
     console.log(import.meta.env.VITE_API_KEY, 'process.env.VITE_API_KEY')
@@ -12,12 +19,23 @@ export const connectToAi = async (userFitnessData: UserFitnessData) => {
 
   // TODO: get running goal from user, pass it to this function and insert the data to the query below.
   // TODO: determine user's fitness level based on moveMinuets ans heartPoints and insert the data to the query below.
-  const prompt = `Help me make a running training plan. my goal is to run 6 km in under 24 minutes in a race 3
-  months from now. Im a ${userFitnessData.gender}, beginner runner, my weight is ${userFitnessData.weight} kg, and my height is ${userFitnessData.height} cm. please format the
-  response to json with a full array of training days`
+  const prompt = `Help me make a running training plan. 
+  my goal is to run 6 km in under 24 minutes in a race 3
+  months from now. Im a ${userFitnessData.gender}, 
+  beginner runner, my weight is ${userFitnessData.weight} kg, 
+  and my height is ${userFitnessData.height} cm. 
+  The plan should specify what to do in each day until the race`
 
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
+  const chatSession = model.startChat({
+    generationConfig,
+    // safetySettings: Adjust safety settings
+    // See https://ai.google.dev/gemini-api/docs/safety-settings
+  });
+
+  const result = await chatSession.sendMessage(prompt);
+  console.log(result.response.text());
+
+  const response = result.response;
   const text = response.text();
   return text;
 }
